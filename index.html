@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Player Stats</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- For Graphs -->
+</head>
+<body>
+    <header>
+        <h1>NBA and NFL Player Stats</h1>
+    </header>
+
+    <div id="player-stats">
+        <h2>Player Stats</h2>
+        <div id="player-list"></div>
+    </div>
+
+    <div id="player-details" style="display:none;">
+        <h2 id="player-name"></h2>
+        <canvas id="statsChart"></canvas> <!-- For the Graph -->
+        <h3>Defensive Stats</h3>
+        <div id="defense-stats"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
