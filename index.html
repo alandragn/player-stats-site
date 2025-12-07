@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>NFL Player Stats Demo</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <title>NFL Player Search — Debuggable</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
   <div class="container">
     <h1>NFL Player Search</h1>
 
     <div class="searchRow">
-      <input type="text" id="playerInput" placeholder="Enter player name (e.g., Tom Brady)">
+      <input type="text" id="playerInput" placeholder="Enter player name (e.g. Tom Brady)" />
       <button id="searchBtn">Search</button>
     </div>
 
+    <div id="status" class="hidden"></div>
+
     <div id="playerInfo" class="hidden"></div>
+
+    <div id="debugContainer">
+      <h3>Debug / Logs</h3>
+      <pre id="debug"></pre>
+      <button id="clearDebug">Clear debug</button>
+    </div>
+
+    <noscript style="color: #ffcc00; text-align:center;">This app needs JavaScript enabled to work.</noscript>
   </div>
 
+  <!-- Load script at end so DOM exists. -->
   <script src="script.js"></script>
 </body>
 </html>
