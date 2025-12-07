@@ -2,16 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>NFL Player Search — Debuggable</title>
+  <title>NFL Player Stats — Interactive</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="styles.css">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>NFL Player Search</h1>
+    <h1>NFL Player Stats</h1>
 
     <div class="searchRow">
-      <input type="text" id="playerInput" placeholder="Enter player name (e.g. Tom Brady)" />
+      <input id="playerInput" type="text" placeholder="Enter player name (e.g., Tom Brady)" />
       <button id="searchBtn">Search</button>
     </div>
 
@@ -19,16 +21,48 @@
 
     <div id="playerInfo" class="hidden"></div>
 
+    <div id="detailPanel" class="hidden">
+      <h2 id="detailName">Player Name</h2>
+      <div id="detailMeta" class="metaRow"></div>
+
+      <div class="chartsRow">
+        <div class="chartCard">
+          <h3>Passing Yards (recent games)</h3>
+          <canvas id="passingChart"></canvas>
+        </div>
+        <div class="chartCard">
+          <h3>Rushing Yards (recent games)</h3>
+          <canvas id="rushingChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chartsRow">
+        <div class="chartCard">
+          <h3>Receiving Yards (recent games)</h3>
+          <canvas id="receivingChart"></canvas>
+        </div>
+        <div class="chartCard">
+          <h3>Summary Table</h3>
+          <div id="summaryTable"></div>
+        </div>
+      </div>
+    </div>
+
     <div id="debugContainer">
       <h3>Debug / Logs</h3>
       <pre id="debug"></pre>
       <button id="clearDebug">Clear debug</button>
     </div>
-
-    <noscript style="color: #ffcc00; text-align:center;">This app needs JavaScript enabled to work.</noscript>
   </div>
 
-  <!-- Load script at end so DOM exists. -->
+  <script>
+    // --- CONFIG ---
+    // If you deploy the proxy, set PROXY_BASE to its URL (no trailing slash), e.g.
+    // const PROXY_BASE = 'https://your-proxy.example.com';
+    // Leave empty '' to use mock data fallback.
+    const PROXY_BASE = ''; // <-- set this after you deploy server.js (optional)
+  </script>
+
   <script src="script.js"></script>
 </body>
 </html>
