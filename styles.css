@@ -1,10 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#player-stats {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#player-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18px;
+}
+
 .player-card {
-    background-color: #fff;
+    background: #fff;
     padding: 20px;
     border-radius: 5px;
     width: 200px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.07);
     cursor: pointer;
-    margin: 10px;
+    transition: box-shadow 0.18s;
+    text-align: center;
+}
+
+.player-card:hover {
+    box-shadow: 0 6px 14px rgba(54,162,235,0.22);
+}
+
+#player-details {
+    margin-top: 30px;
+    text-align: center;
 }
