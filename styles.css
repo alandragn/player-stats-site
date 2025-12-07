@@ -13,47 +13,34 @@ body {
   text-align: center;
 }
 
-h1 {
-  margin-bottom: 20px;
-}
-
 .searchRow {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 20px;
 }
 
 .searchRow input {
   width: 60%;
   padding: 10px;
   font-size: 16px;
-  border-radius: 4px;
-  border: none;
 }
 
 .searchRow button {
   padding: 10px 20px;
   font-size: 16px;
+  background: #1fbf55;
   border: none;
-  border-radius: 4px;
-  background-color: #1fbf55;
-  color: white;
+  border-radius: 5px;
   cursor: pointer;
-}
-
-.searchRow button:hover {
-  background-color: #19a247;
 }
 
 .hidden {
   display: none;
 }
 
-.statCard {
+#playerInfo {
   background: #1a1a1a;
-  padding: 15px;
-  margin: 12px 0;
-  border-radius: 6px;
-  text-align: left;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
 }
