@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sports Player Stats</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- For Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <header>
@@ -15,15 +15,17 @@
     <div id="player-stats">
         <h2>Player Stats</h2>
         <div id="player-list"></div>
+        <!-- No empty buttons or white boxes! -->
     </div>
 
     <div id="player-details" style="display:none;">
         <h2 id="player-name"></h2>
-        <canvas id="statsChart"></canvas> <!-- For the Graph -->
+        <canvas id="statsChart"></canvas>
         <h3>Defensive Stats</h3>
         <div id="defense-stats"></div>
         <h3>Prediction for Next Game</h3>
         <p id="prediction"></p>
+        <button id="back-button" style="margin-top:20px;">Back to Player List</button>
     </div>
 
     <script src="script.js"></script>
