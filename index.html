@@ -2,34 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA and NFL Player Stats</title>
-    <!-- Link to your LOCAL css file -->
+    <title>NFL Player Stats Demo</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Chart.js for graphs -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <header>
-        <h1>NBA and NFL Player Stats</h1>
-    </header>
 
-    <div id="player-stats">
-        <h2>Player Stats</h2>
-        <div id="player-list"></div>
+    <div class="container">
+        <h1>NFL Player Stats</h1>
+
+        <input type="text" id="playerInput" placeholder="Enter player name... (e.g., Patrick Mahomes)">
+        <button id="searchBtn">Search</button>
+
+        <div id="playerInfo" class="hidden"></div>
+        <div id="statsContainer" class="hidden">
+            <h2>Game Stats</h2>
+            <div id="statsList"></div>
+        </div>
     </div>
 
-    <div id="player-details" style="display:none;">
-        <h2 id="player-name"></h2>
-        <canvas id="statsChart"></canvas>
-        <h3>Defensive Stats</h3>
-        <div id="defense-stats"></div>
-        <h3>Prediction for Next Game</h3>
-        <p id="prediction"></p>
-        <button id="back-button" style="margin-top:20px;">Back to Player List</button>
-    </div>
-
-    <!-- Link to your LOCAL JavaScript file -->
     <script src="script.js"></script>
 </body>
 </html>
