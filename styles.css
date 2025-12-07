@@ -1,22 +1,4 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #f4f4f9;
-}
-
-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-#player-stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-}
-
-#player-stats div {
+.player-card {
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
@@ -24,9 +6,5 @@ header {
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-}
-
-#player-details {
-    margin-top: 30px;
-    text-align: center;
+    margin: 10px;
 }
