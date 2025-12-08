@@ -3,7 +3,7 @@ const searchInput = document.getElementById("searchInput");
 const resultsContainer = document.getElementById("resultsContainer");
 const statsContainer = document.getElementById("statsContainer");
 
-// Fetch players (name optional)
+// Fetch players from backend
 async function fetchPlayers(name = "") {
   try {
     const response = await fetch(`http://localhost:3000/api/players?name=${encodeURIComponent(name)}`);
@@ -17,7 +17,7 @@ async function fetchPlayers(name = "") {
 // Display player cards
 function displayPlayers(players) {
   resultsContainer.innerHTML = "";
-  statsContainer.innerHTML = "";
+  statsContainer.innerHTML = ""; // clear previous chart
 
   if (!players.length) {
     resultsContainer.innerHTML = "<p>No players found</p>";
@@ -36,18 +36,18 @@ function displayPlayers(players) {
       <p>Birth: ${player.birthDate}</p>
     `;
 
+    // Click card to show stats
     card.addEventListener("click", () => showStats(player));
     resultsContainer.appendChild(card);
   });
 }
 
-// Show recent stats in a chart
+// Show chart for player's recent stats
 function showStats(player) {
   statsContainer.innerHTML = `<h3>${player.name} - Recent Stats</h3>
                               <canvas id="statsChart"></canvas>`;
 
   const ctx = document.getElementById("statsChart").getContext("2d");
-
   const labels = player.recentStats.map(s => s.game);
   const yards = player.recentStats.map(s => s.yards);
   const td = player.recentStats.map(s => s.td);
@@ -65,13 +65,13 @@ function showStats(player) {
   });
 }
 
-// Handle search form submission
+// Handle search
 searchForm.addEventListener("submit", e => {
   e.preventDefault();
   fetchPlayers(searchInput.value);
 });
 
-// ✅ AUTO LOAD ALL PLAYERS ON PAGE LOAD
+// AUTO LOAD ALL PLAYERS ON PAGE LOAD
 window.addEventListener("DOMContentLoaded", () => {
   fetchPlayers();
 });
