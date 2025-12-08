@@ -1,20 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>NFL Player Stats (ESPN)</title>
   <link rel="stylesheet" href="styles.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <h1>NFL Player Stats</h1>
-  <form id="searchForm">
-    <input type="text" id="searchInput" placeholder="Search players by ID or name" />
-    <button type="submit">Search</button>
-  </form>
-  <div id="resultsContainer"></div>
-  <div id="profileContainer"></div>
+  <header>
+    <h1>NFL Player Stats</h1>
+    <p class="muted">Data via ESPN unofficial endpoints — click a player to load live details.</p>
+  </header>
+
+  <section class="controls">
+    <input id="searchInput" placeholder="Search players (name or ID)">
+    <button id="searchButton">Search</button>
+    <button id="refreshButton" title="Force refresh player list from ESPN">Refresh list</button>
+  </section>
+
+  <main>
+    <div id="playersList" class="grid"></div>
+    <aside id="playerDetail"></aside>
+  </main>
+
+  <footer>
+    <small>Unofficial ESPN data • For demo use only</small>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
