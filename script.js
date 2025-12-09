@@ -1,88 +1,86 @@
-// script.js
-const PROXY = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:3000' : 'https://REPLACE_WITH_YOUR_RENDER_URL';
+// script.js — ready to copy
 
-const playersList = document.getElementById('playersList');
-const playerDetail = document.getElementById('playerDetail');
+// Backend URL
+const PROXY = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') 
+    ? 'http://localhost:3000' 
+    : 'https://espn-nfl-backend.onrender.com';
+
 const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
-const refreshButton = document.getElementById('refreshButton');
+const playerContainer = document.getElementById('playerContainer');
 
-async function fetchPlayers(q='', forceRefresh=false) {
-  try {
-    const url = `${PROXY}/api/players?name=${encodeURIComponent(q)}${forceRefresh ? '&refresh=1' : ''}`;
-    const res = await fetch(url);
-    return await res.json();
-  } catch (err) {
-    console.error('fetchPlayers error', err);
-    return { players: [] };
-  }
-}
-
-function renderPlayerCard(p) {
-  const el = document.createElement('div');
-  el.className = 'card';
-  el.innerHTML = `
-    <div class="card-body">
-      <strong>${escapeHtml(p.name || `#${p.id}`)}</strong>
-      <div class="muted">ID: ${escapeHtml(p.id)}</div>
-      <button class="btn" data-id="${p.id}">View</button>
-    </div>
-  `;
-  el.querySelector('.btn').addEventListener('click', () => loadPlayer(p.id));
-  return el;
-}
-
-async function loadAndRenderPlayers(q='', forceRefresh=false) {
-  playersList.innerHTML = '<div class="loading">Loading players…</div>';
-  const json = await fetchPlayers(q, forceRefresh);
-  const players = json.players || [];
-  playersList.innerHTML = '';
-  if (!players.length) {
-    playersList.innerHTML = '<div>No players found.</div>';
-    return;
-  }
-  players.forEach(p => playersList.appendChild(renderPlayerCard(p)));
-}
-
-async function loadPlayer(id) {
-  playerDetail.innerHTML = '<div class="loading">Loading player details…</div>';
-  try {
-    const res = await fetch(`${PROXY}/api/player/${encodeURIComponent(id)}`);
-    const json = await res.json();
-    if (json.error) {
-      playerDetail.innerHTML = `<div class="error">Error: ${escapeHtml(json.error)}</div>`;
-      return;
+// Fetch all players from backend
+async function fetchAllPlayers() {
+    try {
+        const res = await fetch(`${PROXY}/api/players`);
+        const data = await res.json();
+        return data.players || [];
+    } catch (err) {
+        console.error('Error fetching players:', err);
+        return [];
     }
-    renderPlayerDetail(json.player);
-  } catch (err) {
-    console.error('loadPlayer error', err);
-    playerDetail.innerHTML = `<div class="error">Fetch failed: ${escapeHtml(err.message)}</div>`;
-  }
 }
 
-function renderPlayerDetail(player) {
-  const p = player;
-  playerDetail.innerHTML = `
-    <div class="detail-header">
-      <h2>${escapeHtml(p.displayName || p.raw?.athlete?.displayName || 'Unknown')}</h2>
-      <div class="muted">Position: ${escapeHtml(p.position || p.raw?.athlete?.position?.displayName || '')}</div>
-      <div class="muted">Team: ${escapeHtml(p.team || p.raw?.athlete?.team?.displayName || '')}</div>
-      <div>Weight: ${escapeHtml(p.weight || p.raw?.athlete?.weight || '')}</div>
-      <div>Birth: ${escapeHtml(p.birthDate || '')}</div>
-      <div id="chartArea"></div>
-      <h3>Raw data (ESPN JSON)</h3>
-      <pre id="rawJson">${escapeHtml(JSON.stringify(p.raw, null, 2))}</pre>
-    </div>
-  `;
+// Render a single player card
+function renderPlayer(player) {
+    const card = document.createElement('div');
+    card.className = 'player-card';
+    card.innerHTML = `
+        <img src="${player.headshot || ''}" alt="${player.name}" class="player-img">
+        <h3>${player.name}</h3>
+        <p>Team: ${player.team || 'N/A'}</p>
+        <p>Position: ${player.position || 'N/A'}</p>
+        <button class="stats-btn">View Stats</button>
+        <div class="player-stats" style="display:none;"></div>
+    `;
+
+    // Show more stats on button click
+    const btn = card.querySelector('.stats-btn');
+    const statsDiv = card.querySelector('.player-stats');
+    btn.addEventListener('click', async () => {
+        if (statsDiv.style.display === 'none') {
+            statsDiv.innerHTML = '<p>Loading stats...</p>';
+            statsDiv.style.display = 'block';
+            try {
+                const res = await fetch(`${PROXY}/api/player/${player.id}`);
+                const data = await res.json();
+                statsDiv.innerHTML = `
+                    <p>Height: ${data.height || 'N/A'}</p>
+                    <p>Weight: ${data.weight || 'N/A'}</p>
+                    <p>Birth Date: ${data.birthDate || 'N/A'}</p>
+                    <p>Yards: ${data.yards || 'N/A'}</p>
+                    <p>Touchdowns: ${data.touchdowns || 'N/A'}</p>
+                `;
+            } catch (err) {
+                statsDiv.innerHTML = '<p>Error loading stats.</p>';
+                console.error(err);
+            }
+        } else {
+            statsDiv.style.display = 'none';
+        }
+    });
+
+    playerContainer.appendChild(card);
 }
 
-function escapeHtml(s) {
-  if (!s && s !== 0) return '';
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
+// Handle search
+searchButton.addEventListener('click', async () => {
+    const query = searchInput.value.trim().toLowerCase();
+    playerContainer.innerHTML = '<p>Searching...</p>';
+    const players = await fetchAllPlayers();
+    const filtered = players.filter(p => p.name.toLowerCase().includes(query));
+    playerContainer.innerHTML = '';
+    if (filtered.length === 0) {
+        playerContainer.innerHTML = '<p>No players found.</p>';
+    } else {
+        filtered.forEach(renderPlayer);
+    }
+});
 
-searchButton.addEventListener('click', () => loadAndRenderPlayers(searchInput.value.trim()));
-searchInput.addEventListener('keyup', e => { if (e.key === 'Enter') loadAndRenderPlayers(searchInput.value.trim()); });
-refreshButton.addEventListener('click', () => loadAndRenderPlayers(searchInput.value.trim(), true));
-
-window.addEventListener('DOMContentLoaded', () => loadAndRenderPlayers());
+// Optionally, load all players on page load
+window.addEventListener('DOMContentLoaded', async () => {
+    playerContainer.innerHTML = '<p>Loading players...</p>';
+    const players = await fetchAllPlayers();
+    playerContainer.innerHTML = '';
+    players.forEach(renderPlayer);
+});
